@@ -9,11 +9,10 @@ import { saveGameToStorage, resetGameStorage } from './logic/storage/index.js'
 import { playMoveSound, playWinSound, playTieSound } from './logic/sounds.js'
 
 function App() {
-    // Inicialización perezosa del estado leyendo desde localStorage (solo se ejecuta una vez)
+    // Inicialización perezosa del estado desde localStorage
     const [board, setBoard] = useState(() => {
         const boardFromStorage = window.localStorage.getItem('board')
-        if (boardFromStorage) return JSON.parse(boardFromStorage)
-        return Array(9).fill(null)
+        return boardFromStorage ? JSON.parse(boardFromStorage) : Array(9).fill(null)
     })
 
     const [turn, setTurn] = useState(() => {
@@ -21,15 +20,12 @@ function App() {
         return turnFromStorage ?? TURNS.X
     })
 
-    // null = no hay ganador, false = empate
+    // null = en juego, false = empate, o el ganador (X u O)
     const [winner, setWinner] = useState(null)
 
-    // Guardar el estado del juego en el navegador usando localStorage y useEffect
+    // Persistencia automática del juego
     useEffect(() => {
-        saveGameToStorage({
-            board,
-            turn
-        })
+        saveGameToStorage({ board, turn })
     }, [turn, board])
 
     const resetGame = () => {
@@ -40,59 +36,60 @@ function App() {
     }
 
     const updateBoard = (index) => {
-        // No actualizamos esta posición si ya tiene algo o si ya hay un ganador
-        if (board[index] || winner) return
+        // Bloquear si la casilla ya está ocupada o ya hay un ganador
+        if (board[index] || winner !== null) return
 
-        // Actualizar el tablero (inmutabilidad con spread operator)
+        // 1. Crear el nuevo tablero
         const newBoard = [...board]
         newBoard[index] = turn
         setBoard(newBoard)
 
-        // Sonido local al marcar casilla
+        // 2. Reproducir sonido de movimiento
         playMoveSound(turn === TURNS.X)
 
-        // Cambiar el turno entre X y O
-        const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
-        setTurn(newTurn)
+        // 3. Evaluar si el movimiento actual generó un ganador o un empate
+        const winningResult = checkWinnerFrom(newBoard)
 
-        // Revisar si hay ganador o empate con el nuevo tablero
-        const newWinner = checkWinnerFrom(newBoard)
-        if (newWinner) {
+        if (winningResult) {
             playWinSound()
             confetti({
                 particleCount: 120,
                 spread: 80,
-                colors: ['#002D62', '#CE1126', '#FFFFFF'] // Colores de la bandera RD
+                colors: ['#002D62', '#CE1126', '#FFFFFF'] // Colores patrios de RD 🇩🇴
             })
-            setWinner(newWinner)
+            setWinner(winningResult)
         } else if (checkEndGame(newBoard)) {
             playTieSound()
             setWinner(false) // Empate
+        } else {
+            // 4. Si el juego continúa, cambiar el turno
+            const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+            setTurn(newTurn)
         }
     }
 
     return (
         <main className='board'>
             <div className='flag-banner'>🇩🇴</div>
-            <h1>Tres en Raya Quisqueyano</h1>
-            <p className='subtitle'>Duelo Patrio: <strong>Taíno (×)</strong> vs <strong>Caribe (○)</strong></p>
+            <h1>Cero Mata Cero Quisqueyano</h1>
+            <p className='subtitle'>
+                Duelo Patrio: <strong>Taíno ({TURNS.X})</strong> vs <strong>Caribe ({TURNS.O})</strong>
+            </p>
 
             <button className='reset-btn' onClick={resetGame}>
-                Reiniciar
+                Reiniciar Partida
             </button>
 
             <section className='game'>
-                {board.map((square, index) => {
-                    return (
-                        <Square
-                            key={index}
-                            index={index}
-                            updateBoard={updateBoard}
-                        >
-                            {square}
-                        </Square>
-                    )
-                })}
+                {board.map((square, index) => (
+                    <Square
+                        key={index}
+                        index={index}
+                        updateBoard={updateBoard}
+                    >
+                        {square}
+                    </Square>
+                ))}
             </section>
 
             <section className='turn-container'>
