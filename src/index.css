@@ -161,21 +161,25 @@ body {
 
 .winner {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 24px;
     display: grid;
     place-items: center;
     background-color: rgba(0, 0, 0, 0.78);
     z-index: 10;
+    overflow: auto;
 }
 
 .winner .text {
     background: linear-gradient(145deg, #002d62, #111827, #ce1126);
     height: auto;
-    min-height: 300px;
-    width: 360px;
+    min-height: min(300px, calc(100dvh - 48px));
+    width: min(360px, 100%);
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
     border: 3px solid var(--rd-white);
     border-radius: 18px;
     display: flex;
@@ -185,6 +189,48 @@ body {
     gap: 18px;
     padding: 28px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+.setup-form {
+    min-height: 390px;
+}
+
+.setup-form label {
+    align-self: stretch;
+    text-align: left;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.setup-form input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #111827;
+    font: inherit;
+}
+
+.setup-form input:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.45);
+    outline-offset: 2px;
+}
+
+.setup-form button {
+    margin: 8px 0 0;
+}
+
+.confirmation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.confirmation-actions button {
+    margin: 0;
+    width: 100%;
 }
 
 .winner-subtext {

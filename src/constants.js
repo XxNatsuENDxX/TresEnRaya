@@ -6,7 +6,7 @@ export const TURNS = {
 export const PLAYERS = {
     [TURNS.X]: {
         name: 'Taíno',
-        title: 'Jugador Quisqueya (X)',
+        title: 'Jugador Taíno (X)',
         badge: '🔵 Taíno'
     },
     [TURNS.O]: {
