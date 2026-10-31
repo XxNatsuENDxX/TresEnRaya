@@ -12,6 +12,12 @@ TresEnRaya es una versión del clásico juego de tres en raya para dos jugadores
 
 La aplicación también permite registrar los nombres de los jugadores, conservar el estado de la partida en el navegador, reiniciar el juego y mostrar el resultado de cada partida.
 
+## Versión en línea
+
+El proyecto también se puede ejecutar directamente desde la versión desplegada en Vercel:
+
+<https://tresenraya-amber.vercel.app/>
+
 ## Frameworks y tecnologías utilizadas
 
 - **React:** framework utilizado para construir la interfaz mediante componentes reutilizables y manejar el estado de la partida.
