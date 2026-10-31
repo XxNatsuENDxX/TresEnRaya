@@ -4,7 +4,7 @@
 
 - **Nombre:** Cesar Adrian Aybar Montes De Oca
 - **Matrícula:** 100692670
-- **Asignatura:** Tarea de la UASD
+- **Asignatura:** Lenguaje de Programacion III
 
 ## Descripción del juego
 
