@@ -187,7 +187,7 @@ body {
     min-height: min(300px, calc(100dvh - 48px));
     width: min(360px, 100%);
     max-height: calc(100dvh - 48px);
-    overflow-y: auto;
+    overflow: hidden auto;
     border: 3px solid var(--rd-white);
     border-radius: 18px;
     display: flex;
