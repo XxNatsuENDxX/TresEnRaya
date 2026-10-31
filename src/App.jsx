@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import confetti from 'canvas-confetti'
 
-import { Square } from './components/Square.jsx'
 import { WinnerModal } from './components/WinnerModal.jsx'
-import { TURNS, PLAYERS } from './constants.js'
+import { GameHeader } from './components/GameHeader.jsx'
+import { GameBoard } from './components/GameBoard.jsx'
+import { TurnIndicator } from './components/TurnIndicator.jsx'
+import { PlayerSetupModal } from './components/PlayerSetupModal.jsx'
+import { PlayerConfirmationModal } from './components/PlayerConfirmationModal.jsx'
+import { TURNS } from './constants.js'
 import { checkWinnerFrom, checkEndGame } from './logic/board.js'
 import { saveGameToStorage, resetGameStorage } from './logic/storage/index.js'
 import { playMoveSound, playWinSound, playTieSound } from './logic/sounds.js'
@@ -104,73 +108,20 @@ function App() {
 
     return (
         <main className='board'>
-            <div className='flag-banner'>🇩🇴</div>
-            <h1>Cero Mata Cero Quisqueyano</h1>
-            <p className='subtitle'>
-                Duelo Patrio: <strong>{players[TURNS.X] || 'Jugador X'} ({TURNS.X})</strong> vs{' '}
-                <strong>{players[TURNS.O] || 'Jugador O'} ({TURNS.O})</strong>
-            </p>
-
-            <button className='reset-btn' onClick={resetGame}>
-                Reiniciar Partida
-            </button>
-
-            <section className='game'>
-                {board.map((square, index) => (
-                    <Square
-                        key={index}
-                        index={index}
-                        updateBoard={updateBoard}
-                    >
-                        {square}
-                    </Square>
-                ))}
-            </section>
-
-            <section className='turn-container'>
-                <p className='turn-label'>
-                    Turno actual: <strong>{players[turn]}</strong> — <em>{PLAYERS[turn].title}</em>
-                </p>
-                <div className='turn'>
-                    <Square isSelected={turn === TURNS.X}>
-                        {TURNS.X}
-                    </Square>
-                    <Square isSelected={turn === TURNS.O}>
-                        {TURNS.O}
-                    </Square>
-                </div>
-            </section>
+            <GameHeader players={players} resetGame={resetGame} />
+            <GameBoard board={board} updateBoard={updateBoard} />
+            <TurnIndicator turn={turn} players={players} />
 
             <WinnerModal resetGame={resetGame} winner={winner} players={players} />
 
             {confirmPlayers ? (
-                <section className='winner player-confirmation'>
-                    <div className='text'>
-                        <h2>¿Seguirán jugando los mismos?</h2>
-                        <p className='winner-subtext'>
-                            ¿{players[TURNS.X]} y {players[TURNS.O]} continuarán en la próxima partida?
-                        </p>
-                        <div className='confirmation-actions'>
-                            <button type='button' onClick={keepPlayers}>Sí, somos los mismos</button>
-                            <button type='button' onClick={changePlayers}>No, cambiar nombres</button>
-                        </div>
-                    </div>
-                </section>
+                <PlayerConfirmationModal
+                    players={players}
+                    keepPlayers={keepPlayers}
+                    changePlayers={changePlayers}
+                />
             ) : !players[TURNS.X] || !players[TURNS.O] ? (
-                <section className='winner setup-modal'>
-                    <form className='text setup-form' onSubmit={startGame}>
-                        <h2>¿Quiénes van a jugar?</h2>
-                        <p className='winner-subtext'>Escriban sus nombres para comenzar la partida.</p>
-
-                        <label htmlFor='player-x'>Jugador de {TURNS.X}</label>
-                        <input id='player-x' name='playerX' type='text' placeholder='Nombre del jugador X' autoFocus required />
-
-                        <label htmlFor='player-o'>Jugador de {TURNS.O}</label>
-                        <input id='player-o' name='playerO' type='text' placeholder='Nombre del jugador O' required />
-
-                        <button type='submit'>Comenzar partida</button>
-                    </form>
-                </section>
+                <PlayerSetupModal startGame={startGame} />
             ) : null}
         </main>
     )
