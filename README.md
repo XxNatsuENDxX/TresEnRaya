@@ -1,33 +1,33 @@
 # TresEnRaya
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+Juego de tres en raya para dos jugadores, desarrollado con React y Vite.
 
-## Built with v0
+## Desarrollo
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+Instala las dependencias con npm:
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_YVLchKkINkNKtVcXnnQ3UPzLhucJ)
+```bash
+npm install
+```
 
-## Getting Started
-
-First, run the development server:
+Inicia el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación estará disponible en <http://localhost:5173>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Producción
 
-## Learn More
+Genera la build:
 
-To learn more, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+Para previsualizarla localmente:
+
+```bash
+npm run preview
+```
