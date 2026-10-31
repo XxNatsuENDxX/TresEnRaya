@@ -4,7 +4,7 @@
 
 - **Nombre:** Cesar Adrian Aybar Montes De Oca
 - **Matrícula:** 100692670
-- **Asignatura:** Tarea de la UASD
+- **Asignatura:** Lenguaje de Programacion III
 
 ## Descripción del juego
 
@@ -40,7 +40,7 @@ Para ejecutar el proyecto se necesita:
 1. Clona el repositorio y entra en su carpeta:
 
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
+   git clone https://github.com/XxNatsuENDxX/TresEnRaya.git
    cd TresEnRaya
    ```
 
